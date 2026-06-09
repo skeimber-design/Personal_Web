@@ -235,9 +235,6 @@ LABS.forEach((lab, i) => {
         <div class="lab-tags">${lab.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
       </div>
       <div class="lab-actions">
-        ${lab.pkt
-          ? `<a href="${lab.pkt}" class="btn-dark" download>Descargar .pkt ↓</a>`
-          : `<span class="btn-disabled">Descargar .pkt ↓</span>`}
         <a href="#" class="btn-ghost view-img" data-img="${lab.img}" data-title="${lab.title}">Ver topología ↗</a>
       </div>
     </div>`;
