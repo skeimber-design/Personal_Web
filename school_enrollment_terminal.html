@@ -1,0 +1,228 @@
+<style>
+.term-wrap{background:#1a1a18;border-radius:var(--border-radius-lg);overflow:hidden;font-family:var(--font-mono);width:100%}
+.term-bar{background:#2c2c2a;padding:10px 16px;display:flex;align-items:center;gap:8px}
+.dot{width:12px;height:12px;border-radius:50%}
+.d-r{background:#E24B4A}.d-y{background:#EF9F27}.d-g{background:#639922}
+.term-label{font-size:12px;color:#888780;margin-left:auto}
+.term-body{padding:20px;min-height:320px;max-height:480px;overflow-y:auto;display:flex;flex-direction:column;gap:2px}
+.line{font-size:13px;line-height:1.7;white-space:pre-wrap;word-break:break-word}
+.line.out{color:#B4B2A9}
+.line.sep{color:#444441}
+.line.ok{color:#639922}
+.line.info{color:#1D9E75}
+.line.info2{color:#5DCAA8}
+.line.label{color:#EF9F27}
+.line.prompt{color:#9FE1CB}
+.line.err{color:#E24B4A}
+.term-input-row{display:flex;align-items:center;gap:8px;padding:12px 20px;border-top:0.5px solid #2c2c2a;background:#111110}
+.ps{font-size:13px;color:#9FE1CB;font-family:var(--font-mono);white-space:nowrap}
+#term-in{flex:1;background:transparent;border:none;outline:none;font-family:var(--font-mono);font-size:13px;color:#D3D1C7;caret-color:#9FE1CB}
+</style>
+<h2 class="sr-only">Terminal interactiva: simulador del script Python de inscripción de estudiantes</h2>
+<div class="term-wrap">
+  <div class="term-bar">
+    <div class="dot d-r"></div><div class="dot d-y"></div><div class="dot d-g"></div>
+    <span class="term-label">school_enrollment.py</span>
+  </div>
+  <div class="term-body" id="tbody"></div>
+  <div class="term-input-row">
+    <span class="ps">$&gt;</span>
+    <input id="term-in" type="text" placeholder="Escribí tu respuesta y presioná Enter..." autocomplete="off" spellcheck="false">
+  </div>
+</div>
+
+<script>
+const tbody = document.getElementById('tbody');
+const inp   = document.getElementById('term-in');
+
+const S = {
+  AWAIT_NAME: 'AWAIT_NAME',
+  AWAIT_COURSE: 'AWAIT_COURSE',
+  AWAIT_DETAIL: 'AWAIT_DETAIL',
+  AWAIT_MORE_OPT: 'AWAIT_MORE_OPT',
+  AWAIT_BACK: 'AWAIT_BACK',
+};
+
+let state = S.AWAIT_NAME;
+let studentName = '';
+let selectedCourse = 0;
+
+const courses = {1:'Data Science',2:'Informatic Networks',3:'Accounting',4:'More options'};
+
+function isStrictInt(val){
+  return /^\d+$/.test(val.trim());
+}
+
+function print(text, cls='out'){
+  const d=document.createElement('div');
+  d.className='line '+cls;
+  d.textContent=text;
+  tbody.appendChild(d);
+  tbody.scrollTop=tbody.scrollHeight;
+}
+
+function printCourses(){
+  print('');
+  print('Available courses:','label');
+  Object.entries(courses).forEach(([k,v])=>print(`  ${k} - ${v}`,'info2'));
+  print('');
+  print('Select the course you want to study (1-4):','prompt');
+}
+
+function printCourseDetail(n){
+  const details = {
+    1:{title:'DATA SCIENCE',duration:'7 Quarters',cost:'₡250,000',total:'₡1,750,000',skills:'Python, Big Data & Machine Learning'},
+    2:{title:'INFORMATIC NETWORKS',duration:'7 Quarters',cost:'₡215,000',total:'₡1,505,000',skills:'Cisco CCNA, Servers & Cybersecurity'},
+    3:{title:'ACCOUNTING',duration:'7 Quarters',cost:'₡180,000',total:'₡1,260,000',skills:'Finance, NIFFs & Auditing'},
+  };
+  const d=details[n];
+  print('=============================================','sep');
+  print(`  COURSE: ${d.title}`,'label');
+  print('=============================================','sep');
+  print(`  Duration:           ${d.duration}`,'info');
+  print(`  Cost per Quarter:   ${d.cost}`,'info');
+  print(`  Total Investment:   ${d.total}`,'info');
+  print(`  Skills:             ${d.skills}`,'info');
+  print('---------------------------------------------','sep');
+}
+
+function init(){
+  print('-------------------------------------------------------','sep');
+  print('Welcome to New School — Student Enrollment System','out');
+  print('-------------------------------------------------------','sep');
+  print('');
+  print('Please enter your student name:','prompt');
+}
+
+function handle(val){
+  val = val.trim();
+  print('$ '+val,'prompt');
+
+  if(state===S.AWAIT_NAME){
+    if(!val || !/^[a-zA-ZÀ-ÿ\s]+$/.test(val)){
+      print('Error: The name must only contain letters and cannot be empty.','err');
+      print('');
+      print('Please enter your student name:','prompt');
+    } else {
+      studentName=val;
+      print('');
+      print(`Name accepted: ${studentName}  —  ready to be assigned a class.`,'ok');
+      print('The program will now show you the available courses.','out');
+      printCourses();
+      state=S.AWAIT_COURSE;
+    }
+    return;
+  }
+
+  if(state===S.AWAIT_COURSE){
+    if(!isStrictInt(val)){
+      print('You must type a number (only digits, no letters).','err');
+      printCourses();
+      return;
+    }
+    const n=parseInt(val,10);
+    if(!courses[n]){
+      print('That course does not exist. Choose a number between 1 and 4.','err');
+      printCourses();
+      return;
+    }
+    selectedCourse=n;
+    print(`You selected: ${courses[n]}`,'info');
+    if(n===4){
+      print('');
+      print('  1 - More courses','info2');
+      print('  2 - Free courses','info2');
+      print('  3 - Return to menu','info2');
+      print('');
+      print('Select an option (1-3):','prompt');
+      state=S.AWAIT_MORE_OPT;
+    } else {
+      print('');
+      print('Type 1 for more information or 0 to return to menu:','prompt');
+      state=S.AWAIT_DETAIL;
+    }
+    return;
+  }
+
+  if(state===S.AWAIT_DETAIL){
+    if(!isStrictInt(val)){
+      print('Invalid option. Type 1 or 0.','err');
+      print('Type 1 for more information or 0 to return to menu:','prompt');
+      return;
+    }
+    const n=parseInt(val,10);
+    if(n===1){
+      printCourseDetail(selectedCourse);
+      print(`  Registration completed for ${studentName}!`,'ok');
+      print(`  Now assigned to: ${courses[selectedCourse]}`,'ok');
+      print('');
+      print('Press Enter to return to the course menu...','prompt');
+      state=S.AWAIT_BACK;
+    } else if(n===0){
+      print('Returning to menu...','out');
+      printCourses();
+      state=S.AWAIT_COURSE;
+    } else {
+      print('Invalid option. Type 1 or 0.','err');
+      print('Type 1 for more information or 0 to return to menu:','prompt');
+    }
+    return;
+  }
+
+  if(state===S.AWAIT_BACK){
+    printCourses();
+    state=S.AWAIT_COURSE;
+    return;
+  }
+
+  if(state===S.AWAIT_MORE_OPT){
+    if(!isStrictInt(val)){
+      print('Invalid option. Type a number between 1 and 3.','err');
+      print('Select an option (1-3):','prompt');
+      return;
+    }
+    const n=parseInt(val,10);
+    if(n===1){
+      print('');
+      print('  ADDITIONAL PROGRAMS','label');
+      print('  1. Web Development  —  ₡150,000 per quarter','info');
+      print('  2. Graphic Design   —  ₡135,000 per quarter','info');
+      print('  3. Cyber Security   —  ₡160,000 per quarter','info');
+      print('  * All programs: 3 quarters *','info2');
+      print('');
+      print('Press Enter to return to the course menu...','prompt');
+      state=S.AWAIT_BACK;
+    } else if(n===2){
+      print('');
+      print('  FREE WORKSHOPS (₡0)','label');
+      print('  - Intro to Programming Logic','info');
+      print('  - Basic Business English','info');
+      print('  - Personal Finance Workshop','info');
+      print('  * No cost for registered students *','info2');
+      print('  Contact: +506 7282 9184','info2');
+      print('');
+      print('Press Enter to return to the course menu...','prompt');
+      state=S.AWAIT_BACK;
+    } else if(n===3){
+      print('Returning to main menu...','out');
+      printCourses();
+      state=S.AWAIT_COURSE;
+    } else {
+      print('Invalid option. Choose 1, 2 or 3.','err');
+      print('Select an option (1-3):','prompt');
+    }
+    return;
+  }
+}
+
+inp.addEventListener('keydown',e=>{
+  if(e.key==='Enter'){
+    const v=inp.value;
+    inp.value='';
+    handle(v);
+  }
+});
+
+init();
+inp.focus();
+</script>
