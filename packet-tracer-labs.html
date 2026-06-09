@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Packet Tracer Labs — Skeimber Arce</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#F8F7F4;
+  --surface:#FFFFFF;
+  --ink:#111110;
+  --ink-2:#4A4845;
+  --ink-3:#9A9690;
+  --ink-4:#C8C5BF;
+  --line:rgba(17,17,16,0.09);
+  --line-strong:rgba(17,17,16,0.15);
+  --accent:#1A1A18;
+  --shadow:0 1px 3px rgba(17,17,16,0.06),0 4px 16px rgba(17,17,16,0.04);
+  --shadow-hover:0 4px 12px rgba(17,17,16,0.09),0 16px 40px rgba(17,17,16,0.09);
+  --r:10px;
+  --ease:.22s cubic-bezier(0.4,0,0.2,1);
+  --f-display:'Cormorant Garamond',Georgia,serif;
+  --f-body:'Outfit',system-ui,sans-serif;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.6;overflow-x:hidden}
+
+/* NAV */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 3rem;height:64px;
+  background:rgba(248,247,244,0.92);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--line);
+}
+.nav-logo{font-family:var(--f-display);font-size:1.15rem;font-weight:700;color:var(--ink);text-decoration:none;letter-spacing:.01em}
+.nav-back{display:inline-flex;align-items:center;gap:.45rem;font-size:.82rem;font-weight:400;color:var(--ink-2);text-decoration:none;letter-spacing:.02em;transition:color .2s}
+.nav-back:hover{color:var(--ink)}
+
+/* HERO */
+.hero{padding:8rem 2rem 4rem;text-align:center}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:.6rem;font-size:.72rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);margin-bottom:1.75rem}
+.eyebrow-line{width:28px;height:1px;background:var(--ink-3)}
+.hero h1{font-family:var(--f-display);font-size:clamp(2.5rem,6vw,5rem);font-weight:700;line-height:1.05;letter-spacing:-.02em;color:var(--ink);margin-bottom:1.25rem}
+.hero h1 em{font-style:italic;font-weight:400}
+.hero-desc{max-width:480px;margin:0 auto;font-size:.9rem;font-weight:300;color:var(--ink-2);line-height:1.8}
+.divider{width:1px;height:48px;background:var(--line-strong);margin:2.5rem auto 0}
+
+/* LABS */
+.labs{padding:4rem 2rem 6rem}
+.wrap{max-width:980px;margin:0 auto}
+
+.lab{
+  display:grid;grid-template-columns:1fr 1fr;gap:0;
+  border:1px solid var(--line);background:var(--surface);
+  margin-bottom:2rem;overflow:hidden;
+  opacity:0;transform:translateY(20px);
+  transition:opacity .55s ease,transform .55s ease,box-shadow var(--ease);
+}
+.lab.visible{opacity:1;transform:translateY(0)}
+.lab:hover{box-shadow:var(--shadow-hover)}
+
+.lab-img-wrap{
+  position:relative;overflow:hidden;
+  background:#F0EFEB;cursor:zoom-in;
+  aspect-ratio:16/10;
+}
+.lab-img-wrap img{
+  width:100%;height:100%;object-fit:cover;object-position:center top;display:block;
+  transition:transform .4s ease;
+}
+.lab:hover .lab-img-wrap img{transform:scale(1.03)}
+.lab-zoom-hint{
+  position:absolute;bottom:.75rem;right:.75rem;
+  background:rgba(17,17,16,.55);color:#F8F7F4;
+  font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;
+  padding:.28rem .65rem;border-radius:100px;
+  opacity:0;transition:opacity .2s;pointer-events:none;
+}
+.lab-img-wrap:hover .lab-zoom-hint{opacity:1}
+
+.lab-info{
+  padding:2.25rem 2rem;display:flex;flex-direction:column;justify-content:space-between;
+  border-left:1px solid var(--line);
+}
+.lab-num{font-size:.65rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-4);margin-bottom:.5rem}
+.lab-title{font-family:var(--f-display);font-size:1.6rem;font-weight:600;line-height:1.1;letter-spacing:-.01em;color:var(--ink);margin-bottom:1rem}
+.lab-desc{font-size:.83rem;font-weight:300;color:var(--ink-2);line-height:1.75;margin-bottom:1.5rem;flex:1}
+.lab-tags{display:flex;flex-wrap:wrap;gap:.35rem;margin-bottom:1.75rem}
+.tag{font-size:.65rem;padding:.18rem .6rem;border:1px solid var(--line-strong);border-radius:100px;color:var(--ink-3);letter-spacing:.04em}
+.lab-actions{display:flex;gap:.65rem;flex-wrap:wrap}
+.btn-dark{
+  background:var(--ink);color:var(--bg);
+  padding:.6rem 1.35rem;border-radius:100px;
+  font-family:var(--f-body);font-size:.78rem;font-weight:500;
+  text-decoration:none;letter-spacing:.03em;
+  transition:opacity .2s,transform .2s;display:inline-block;
+}
+.btn-dark:hover{opacity:.82;transform:translateY(-1px)}
+.btn-ghost{
+  background:transparent;color:var(--ink);border:1px solid var(--line-strong);
+  padding:.6rem 1.35rem;border-radius:100px;
+  font-family:var(--f-body);font-size:.78rem;font-weight:400;
+  text-decoration:none;letter-spacing:.03em;
+  transition:border-color .2s,transform .2s;display:inline-block;
+}
+.btn-ghost:hover{border-color:var(--ink);transform:translateY(-1px)}
+.btn-disabled{
+  opacity:.35;pointer-events:none;
+  background:transparent;color:var(--ink);border:1px solid var(--line-strong);
+  padding:.6rem 1.35rem;border-radius:100px;
+  font-family:var(--f-body);font-size:.78rem;font-weight:400;
+  letter-spacing:.03em;display:inline-block;
+}
+
+/* LIGHTBOX */
+.lightbox{display:none;position:fixed;inset:0;z-index:9999;background:rgba(10,10,9,.85);backdrop-filter:blur(6px);align-items:center;justify-content:center;padding:1.5rem}
+.lightbox.open{display:flex}
+.lb-inner{position:relative;max-width:1100px;width:100%;border-radius:10px;overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,.5);animation:lbIn .22s ease both}
+@keyframes lbIn{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:scale(1)}}
+.lb-inner img{width:100%;display:block}
+.lb-close{position:absolute;top:.75rem;right:.75rem;width:32px;height:32px;background:rgba(10,10,9,.6);border:none;border-radius:50%;color:#fff;font-size:.9rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .18s}
+.lb-close:hover{background:rgba(10,10,9,.9)}
+.lb-caption{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(10,10,9,.65));color:#fff;padding:1.5rem 1.25rem .85rem;font-size:.82rem;font-weight:500;letter-spacing:.02em}
+
+/* FOOTER */
+footer{background:var(--ink);color:var(--bg);padding:3rem 2rem 0;text-align:center}
+.footer-name{font-family:var(--f-display);font-size:.95rem;font-weight:700;margin-bottom:.5rem}
+.footer-sub{font-size:.75rem;color:rgba(248,247,244,.4);margin-bottom:1.5rem}
+.footer-links{display:flex;justify-content:center;gap:2rem;list-style:none;margin-bottom:2rem}
+.footer-links a{font-size:.78rem;color:rgba(248,247,244,.5);text-decoration:none;transition:color .2s}
+.footer-links a:hover{color:var(--bg)}
+.footer-big{font-family:var(--f-display);font-size:clamp(3rem,8vw,6rem);font-weight:700;color:rgba(248,247,244,.05);letter-spacing:-.03em;line-height:1;padding-top:1rem;overflow:hidden}
+
+/* RESPONSIVE */
+@media(max-width:700px){
+  nav{padding:0 1.25rem}
+  .lab{grid-template-columns:1fr}
+  .lab-img-wrap{aspect-ratio:16/9}
+  .lab-info{border-left:none;border-top:1px solid var(--line)}
+}
+</style>
+</head>
+<body>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <div class="lb-inner">
+    <img id="lb-img" src="" alt="">
+    <div class="lb-caption" id="lb-caption"></div>
+    <button class="lb-close" id="lb-close" aria-label="Cerrar">✕</button>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">Skeimber Arce</a>
+  <a href="index.html#proyectos" class="nav-back">← Volver al portafolio</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow"><span class="eyebrow-line"></span> Cisco Packet Tracer <span class="eyebrow-line"></span></div>
+  <h1>Laboratorios de<br><em>Redes.</em></h1>
+  <p class="hero-desc">Simulaciones de infraestructura de red diseñadas y configuradas en Cisco Packet Tracer, desde redes multi-sitio hasta topologías avanzadas con HSRP, VLANs y EtherChannel.</p>
+  <div class="divider"></div>
+</div>
+
+<!-- LABS -->
+<section class="labs">
+  <div class="wrap" id="labs-wrap"></div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-name">Skeimber Arce Sánchez</div>
+  <p class="footer-sub">Técnico en Redes & IT Support — Heredia, Costa Rica</p>
+  <ul class="footer-links">
+    <li><a href="index.html">Portafolio</a></li>
+    <li><a href="https://linkedin.com/in/skeimber-arce" target="_blank">LinkedIn</a></li>
+    <li><a href="https://github.com/skeimber-arce" target="_blank">GitHub</a></li>
+    <li><a href="https://wa.me/50664794908" target="_blank">WhatsApp</a></li>
+  </ul>
+  <div class="footer-big">Redes.</div>
+</footer>
+
+<script>
+const LABS = [
+  {
+    num: 'Lab 01',
+    title: 'Red Empresarial Multi-Sitio',
+    desc: 'Topología WAN con 4 routers Cisco 1941 interconectados mediante enlaces seriales. Incluye switches 2960, routers inalámbricos, múltiples subredes y configuración de rutas estáticas entre sitios distribuidos geográficamente.',
+    tags: ['Routing Estático', 'WAN', 'Serial Links', 'Subnetting', 'Wireless'],
+    img: 'lab1.png',
+    pkt: null,
+  },
+  {
+    num: 'Lab 02',
+    title: 'Red HQ-Sucursal con NTP',
+    desc: 'Infraestructura con sede central (HQ) y sucursal interconectadas por enlace serial S0/1/0. Configuración de VLANs 10 en switches de sucursal, servidor NTP, tabla de asignación de direcciones IP y sincronización de tiempo entre dispositivos.',
+    tags: ['VLANs', 'NTP Server', 'Serial WAN', 'HQ-Branch', 'IP Addressing'],
+    img: 'lab2.png',
+    pkt: null,
+  },
+  {
+    num: 'Lab 03',
+    title: 'Red Avanzada con HSRP, VLANs y EtherChannel',
+    desc: 'Topología empresarial avanzada con redundancia HSRP (prioridad 100), servidor DHCP con exclusiones, 5 VLANs segmentadas por departamento, rutas estáticas al ISP, EtherChannel en canales 7-8-9 y conexión a internet mediante router ISP externo.',
+    tags: ['HSRP', 'VLANs', 'DHCP', 'EtherChannel', 'Rutas Estáticas', 'ISP'],
+    img: 'lab3.png',
+    pkt: null,
+  },
+];
+
+const wrap = document.getElementById('labs-wrap');
+
+LABS.forEach((lab, i) => {
+  const el = document.createElement('div');
+  el.className = 'lab';
+  el.innerHTML = `
+    <div class="lab-img-wrap" data-img="${lab.img}" data-title="${lab.title}">
+      <img src="${lab.img}" alt="Topología ${lab.title}" loading="lazy">
+      <span class="lab-zoom-hint">Ampliar ↗</span>
+    </div>
+    <div class="lab-info">
+      <div>
+        <div class="lab-num">${lab.num}</div>
+        <h2 class="lab-title">${lab.title}</h2>
+        <p class="lab-desc">${lab.desc}</p>
+        <div class="lab-tags">${lab.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
+      </div>
+      <div class="lab-actions">
+        ${lab.pkt
+          ? `<a href="${lab.pkt}" class="btn-dark" download>Descargar .pkt ↓</a>`
+          : `<span class="btn-disabled">Descargar .pkt ↓</span>`}
+        <a href="#" class="btn-ghost view-img" data-img="${lab.img}" data-title="${lab.title}">Ver topología ↗</a>
+      </div>
+    </div>`;
+  wrap.appendChild(el);
+});
+
+// Lightbox
+const lb     = document.getElementById('lightbox');
+const lbImg  = document.getElementById('lb-img');
+const lbCap  = document.getElementById('lb-caption');
+const lbClose= document.getElementById('lb-close');
+
+function openLb(src, name){
+  lbImg.src=src; lbImg.alt=name; lbCap.textContent=name;
+  lb.classList.add('open'); document.body.style.overflow='hidden';
+}
+function closeLb(){
+  lb.classList.remove('open'); document.body.style.overflow=''; lbImg.src='';
+}
+
+document.querySelectorAll('.lab-img-wrap').forEach(el=>{
+  el.addEventListener('click',()=>openLb(el.dataset.img, el.dataset.title));
+});
+document.querySelectorAll('.view-img').forEach(el=>{
+  el.addEventListener('click',e=>{e.preventDefault();openLb(el.dataset.img,el.dataset.title);});
+});
+lbClose.addEventListener('click',closeLb);
+lb.addEventListener('click',e=>{if(e.target===lb)closeLb();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLb();});
+
+// Scroll reveal
+const io = new IntersectionObserver(entries=>{
+  entries.forEach((e,i)=>{
+    if(e.isIntersecting){
+      setTimeout(()=>e.target.classList.add('visible'), i*80);
+      io.unobserve(e.target);
+    }
+  });
+},{threshold:0.07});
+document.querySelectorAll('.lab').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
