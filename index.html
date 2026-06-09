@@ -518,16 +518,16 @@ CERTS_DB.forEach(cert => {
       </div>`;
   }
  
-  const info = document.createElement('div');
+    const info = document.createElement('div');
   info.className = 'cert-info';
   info.innerHTML = `
     <div class="cert-info-top">
       <span class="cert-year">${cert.year}</span>
-      <span class="cert-badge">Verificado</span>
     </div>
     <div class="cert-icon">${cert.icon}</div>
     <h3 class="cert-name">${cert.name}</h3>
     <p class="cert-issuer">${cert.issuer}</p>`;
+    //<span class="cert-badge">Verificado</span>
  
   card.appendChild(imgWrap);
   card.appendChild(info);
