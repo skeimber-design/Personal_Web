@@ -99,118 +99,47 @@ section{padding:6rem 2rem}
 .ttag{font-size:.65rem;padding:.15rem .55rem;border:1px solid var(--line);border-radius:100px;color:var(--ink-3)}
 .plink-row{display:flex;align-items:center;gap:.5rem;margin-top:1rem;padding-top:.85rem;border-top:1px solid var(--line)}
 .plink-label{font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);white-space:nowrap;flex-shrink:0}
-.plink-input{flex:1;border:none;background:transparent;font-family:var(--f-body);font-size:.72rem;color:var(--ink-2);outline:none;min-width:0;border-bottom:1px dashed var(--line-strong);padding:.1rem .2rem;transition:border-color .2s}
-.plink-input::placeholder{color:var(--ink-3);font-style:italic}
-.plink-input:focus{border-color:var(--ink-2)}
-.plink-go{flex-shrink:0;width:22px;height:22px;background:transparent;border:1px solid var(--line-strong);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:.65rem;color:var(--ink-3);transition:background .2s,color .2s,border-color .2s}
+.plink-val{flex:1;font-size:.72rem;color:var(--ink-3);font-style:italic;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.plink-go{flex-shrink:0;width:22px;height:22px;background:transparent;border:1px solid var(--line-strong);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:.65rem;color:var(--ink-3);text-decoration:none;transition:background .2s,color .2s,border-color .2s}
+.plink-go:hover{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.plink-go.disabled{pointer-events:none;opacity:.35}
  
 /* ── CERTIFICACIONES ──────────────────────────── */
 #certificaciones{border-top:1px solid var(--line);background:var(--bg)}
- 
-/* Grid: 4 col → 2 tablet → 1 móvil */
-.certs-grid{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:1.2rem;
-}
- 
-/* Tarjeta */
+.certs-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.2rem}
 .cert-card{
-  background:var(--surface);
-  border-radius:var(--r);
-  border:1px solid var(--line);
-  box-shadow:var(--shadow);
-  overflow:hidden;
-  display:flex;
-  flex-direction:column;
-  cursor:pointer;
-  /* entrada */
-  opacity:0;
-  transform:translateY(14px);
-  transition:
-    opacity .5s ease,
-    transform .5s ease,
-    box-shadow var(--ease),
-    border-color var(--ease);
+  background:var(--surface);border-radius:var(--r);
+  border:1px solid var(--line);box-shadow:var(--shadow);
+  overflow:hidden;display:flex;flex-direction:column;cursor:pointer;
+  opacity:0;transform:translateY(14px);
+  transition:opacity .5s ease,transform .5s ease,box-shadow var(--ease),border-color var(--ease);
 }
 .cert-card.visible{opacity:1;transform:translateY(0)}
 .cert-card:hover{box-shadow:var(--shadow-hover);border-color:var(--line-strong);transform:translateY(-3px)}
- 
-/* Imagen */
-.cert-img-wrap{
-  width:100%;
-  aspect-ratio:16/10;
-  background:#F0EFEB;
-  overflow:hidden;
-  flex-shrink:0;
-  position:relative;
-}
-.cert-img-wrap img{
-  width:100%;height:100%;
-  object-fit:cover;object-position:center top;
-  display:block;
-  transition:transform .35s ease;
-}
+.cert-img-wrap{width:100%;aspect-ratio:16/10;background:#F0EFEB;overflow:hidden;flex-shrink:0}
+.cert-img-wrap img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block;transition:transform .35s ease}
 .cert-card:hover .cert-img-wrap img{transform:scale(1.03)}
- 
-/* Placeholder sin imagen */
-.cert-ph{
-  width:100%;height:100%;
-  display:flex;flex-direction:column;
-  align-items:center;justify-content:center;gap:.4rem;
-  color:var(--ink-4);font-size:.68rem;
-  letter-spacing:.06em;text-transform:uppercase;
-}
+.cert-ph{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.4rem;color:var(--ink-4);font-size:.68rem;letter-spacing:.06em;text-transform:uppercase}
 .cert-ph-icon{font-size:1.5rem;opacity:.3}
 .cert-ph-txt{opacity:.45}
- 
-/* Info */
 .cert-info{padding:1.1rem 1.2rem 1.25rem;display:flex;flex-direction:column;gap:.25rem;flex:1}
 .cert-info-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:.3rem}
 .cert-year{font-size:.63rem;font-weight:400;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-4)}
-.cert-badge{
-  display:inline-flex;align-items:center;gap:.28rem;
-  background:var(--verified-bg);color:var(--verified);
-  font-size:.58rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;
-  padding:.18rem .5rem;border-radius:100px;
-}
+.cert-badge{display:inline-flex;align-items:center;gap:.28rem;background:var(--verified-bg);color:var(--verified);font-size:.58rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;padding:.18rem .5rem;border-radius:100px}
 .cert-badge::before{content:'';width:5px;height:5px;background:var(--verified);border-radius:50%;flex-shrink:0}
 .cert-icon{font-size:1.2rem;margin-bottom:.15rem;line-height:1}
 .cert-name{font-size:.88rem;font-weight:600;color:var(--ink);line-height:1.3;letter-spacing:-.005em}
 .cert-issuer{font-size:.74rem;font-weight:300;color:var(--ink-3);line-height:1.4}
  
 /* ── LIGHTBOX ──────────────────────────────────── */
-.lightbox{
-  display:none;position:fixed;inset:0;z-index:9999;
-  background:rgba(10,10,9,.82);
-  backdrop-filter:blur(6px);
-  align-items:center;justify-content:center;
-  padding:1.5rem;
-}
+.lightbox{display:none;position:fixed;inset:0;z-index:9999;background:rgba(10,10,9,.82);backdrop-filter:blur(6px);align-items:center;justify-content:center;padding:1.5rem}
 .lightbox.open{display:flex}
-.lb-inner{
-  position:relative;max-width:820px;width:100%;
-  border-radius:12px;overflow:hidden;
-  box-shadow:0 24px 80px rgba(0,0,0,.45);
-  animation:lbIn .25s ease both;
-}
+.lb-inner{position:relative;max-width:820px;width:100%;border-radius:12px;overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,.45);animation:lbIn .25s ease both}
 @keyframes lbIn{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}
 .lb-inner img{width:100%;display:block}
-.lb-close{
-  position:absolute;top:.8rem;right:.8rem;
-  width:32px;height:32px;
-  background:rgba(10,10,9,.6);border:none;border-radius:50%;
-  color:#fff;font-size:.9rem;cursor:pointer;
-  display:flex;align-items:center;justify-content:center;
-  transition:background .18s;
-}
+.lb-close{position:absolute;top:.8rem;right:.8rem;width:32px;height:32px;background:rgba(10,10,9,.6);border:none;border-radius:50%;color:#fff;font-size:.9rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .18s}
 .lb-close:hover{background:rgba(10,10,9,.9)}
-.lb-caption{
-  position:absolute;bottom:0;left:0;right:0;
-  background:linear-gradient(transparent,rgba(10,10,9,.7));
-  color:#fff;padding:1.5rem 1.25rem .9rem;
-  font-size:.82rem;font-weight:500;letter-spacing:.02em;
-}
+.lb-caption{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(10,10,9,.7));color:#fff;padding:1.5rem 1.25rem .9rem;font-size:.82rem;font-weight:500;letter-spacing:.02em}
  
 /* ── CV ────────────────────────────────────────── */
 #cv{border-top:1px solid var(--line);background:var(--surface)}
@@ -241,18 +170,14 @@ footer{background:var(--ink);color:var(--bg);padding:4rem 2rem 0}
 .d1{animation-delay:.1s}.d2{animation-delay:.2s}.d3{animation-delay:.3s}.d4{animation-delay:.4s}.d5{animation-delay:.5s}
  
 /* ── RESPONSIVE ────────────────────────────────── */
-@media(max-width:900px){
-  .certs-grid{grid-template-columns:repeat(2,1fr)}
-}
+@media(max-width:900px){.certs-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:700px){
   nav{padding:0 1.25rem}
   .nav-links li:not(:last-child){display:none}
   .footer-top{grid-template-columns:1fr 1fr}
   .cv-row{grid-template-columns:1fr}
 }
-@media(max-width:520px){
-  .certs-grid{grid-template-columns:1fr;gap:.85rem}
-}
+@media(max-width:520px){.certs-grid{grid-template-columns:1fr;gap:.85rem}}
 </style>
 </head>
 <body>
@@ -284,7 +209,7 @@ footer{background:var(--ink);color:var(--bg);padding:4rem 2rem 0}
 <!-- ── HERO ──────────────────────────────────────────────────── -->
 <section class="hero">
   <div class="hero-eyebrow fu"><span class="eyebrow-line"></span> Disponible para nuevas oportunidades <span class="eyebrow-line"></span></div>
-  <h1 class="fu d1">Skeimber<br><em>Arce.</em></h1>
+  <h1 class="fu d1">Skeimber<br><em>Arce Sánchez.</em></h1>
   <p class="hero-desc fu d2">Técnico en Redes y Soporte IT. Estudiante de Ingeniería en Sistemas. Especialista en infraestructura, ciberseguridad y soporte técnico. Heredia, Costa Rica.</p>
   <div class="hero-pills fu d3">
     <span class="pill">IT Support</span>
@@ -307,56 +232,11 @@ footer{background:var(--ink);color:var(--bg);padding:4rem 2rem 0}
       <div class="sec-tag">Proyectos seleccionados</div>
       <h2 class="sec-title">Trabajo reciente que me<br><em>hace sentir orgulloso.</em></h2>
     </div>
-    <div class="filters">
-      <button class="ftab on" onclick="fp('todos',this)">Todos</button>
-      <button class="ftab" onclick="fp('web',this)">Web</button>
-      <button class="ftab" onclick="fp('redes',this)">Redes</button>
-      <button class="ftab" onclick="fp('python',this)">Python</button>
-      <button class="ftab" onclick="fp('seguridad',this)">Ciberseguridad</button>
+    <div class="filters" id="filters-bar">
+      <!-- Los filtros se generan solos desde las categorías del PROJECTS_DB -->
     </div>
     <div class="pgrid" id="pgrid">
-      <div class="pcard" data-c="web">
-        <div class="pcard-top"><span class="pcard-ico">🌐</span><a href="https://github.com/skeimber-arce" target="_blank" class="pcard-arr">↗</a></div>
-        <div class="pcat">Desarrollo Web</div><div class="ptitle">Portafolio Personal</div>
-        <div class="pdesc">Sitio web personal construido con HTML, CSS y JavaScript puro. Diseño responsive y moderno.</div>
-        <div class="ptags"><span class="ttag">HTML</span><span class="ttag">CSS</span><span class="ttag">JavaScript</span></div>
-        <div class="plink-row"><span class="plink-label">Link</span><input class="plink-input" type="url" placeholder="https://tu-proyecto.com" id="l1"><button class="plink-go" onclick="openLink('l1')" title="Abrir">↗</button></div>
-      </div>
-      <div class="pcard" data-c="redes">
-        <div class="pcard-top"><span class="pcard-ico">🔌</span><a href="https://github.com/skeimber-arce" target="_blank" class="pcard-arr">↗</a></div>
-        <div class="pcat">Redes — Packet Tracer</div><div class="ptitle">Red Empresarial Simulada</div>
-        <div class="pdesc">Red LAN/WAN con VLANs, routing OSPF y ACLs de seguridad en Cisco Packet Tracer.</div>
-        <div class="ptags"><span class="ttag">Packet Tracer</span><span class="ttag">OSPF</span><span class="ttag">VLANs</span><span class="ttag">ACL</span></div>
-        <div class="plink-row"><span class="plink-label">Link</span><input class="plink-input" type="url" placeholder="https://github.com/..." id="l2"><button class="plink-go" onclick="openLink('l2')" title="Abrir">↗</button></div>
-      </div>
-      <div class="pcard" data-c="redes seguridad">
-        <div class="pcard-top"><span class="pcard-ico">🛡️</span><a href="https://github.com/skeimber-arce" target="_blank" class="pcard-arr">↗</a></div>
-        <div class="pcat">Redes — GNS3</div><div class="ptitle">Lab de Seguridad GNS3</div>
-        <div class="pdesc">Laboratorio con firewalls, IDS/IPS y análisis de tráfico con Wireshark en entorno virtualizado.</div>
-        <div class="ptags"><span class="ttag">GNS3</span><span class="ttag">Wireshark</span><span class="ttag">Firewall</span></div>
-        <div class="plink-row"><span class="plink-label">Link</span><input class="plink-input" type="url" placeholder="https://github.com/..." id="l3"><button class="plink-go" onclick="openLink('l3')" title="Abrir">↗</button></div>
-      </div>
-      <div class="pcard" data-c="python">
-        <div class="pcard-top"><span class="pcard-ico">🐍</span><a href="https://github.com/skeimber-arce" target="_blank" class="pcard-arr">↗</a></div>
-        <div class="pcat">Python Script</div><div class="ptitle">Automatización IT</div>
-        <div class="pdesc">Scripts Python para automatización de tareas de soporte IT, monitoreo de red y gestión de sistemas.</div>
-        <div class="ptags"><span class="ttag">Python</span><span class="ttag">Automatización</span><span class="ttag">IT Support</span></div>
-        <div class="plink-row"><span class="plink-label">Link</span><input class="plink-input" type="url" placeholder="https://github.com/..." id="l4"><button class="plink-go" onclick="openLink('l4')" title="Abrir">↗</button></div>
-      </div>
-      <div class="pcard" data-c="web">
-        <div class="pcard-top"><span class="pcard-ico">💻</span><a href="https://github.com/skeimber-arce" target="_blank" class="pcard-arr">↗</a></div>
-        <div class="pcat">Desarrollo Web</div><div class="ptitle">Proyectos Web en GitHub</div>
-        <div class="pdesc">Páginas web y aplicaciones construidas como práctica en desarrollo frontend.</div>
-        <div class="ptags"><span class="ttag">HTML</span><span class="ttag">CSS</span><span class="ttag">Git</span></div>
-        <div class="plink-row"><span class="plink-label">Link</span><input class="plink-input" type="url" placeholder="https://tu-proyecto.com" id="l5"><button class="plink-go" onclick="openLink('l5')" title="Abrir">↗</button></div>
-      </div>
-      <div class="pcard" data-c="seguridad">
-        <div class="pcard-top"><span class="pcard-ico">🔍</span><a href="https://github.com/skeimber-arce" target="_blank" class="pcard-arr">↗</a></div>
-        <div class="pcat">Ciberseguridad</div><div class="ptitle">Análisis de Vulnerabilidades</div>
-        <div class="pdesc">Ejercicios de análisis de vulnerabilidades y hardening de sistemas en laboratorio controlado.</div>
-        <div class="ptags"><span class="ttag">CyberOps</span><span class="ttag">Análisis</span><span class="ttag">Hardening</span></div>
-        <div class="plink-row"><span class="plink-label">Link</span><input class="plink-input" type="url" placeholder="https://github.com/..." id="l6"><button class="plink-go" onclick="openLink('l6')" title="Abrir">↗</button></div>
-      </div>
+      <!-- Las tarjetas se generan desde PROJECTS_DB (ver JS abajo) -->
     </div>
   </div>
 </section>
@@ -368,7 +248,6 @@ footer{background:var(--ink);color:var(--bg);padding:4rem 2rem 0}
       <div class="sec-tag">Certificados</div>
       <h2 class="sec-title">Formación continua y<br><em>aprendizaje verificado.</em></h2>
     </div>
-    <!-- Las tarjetas se generan automáticamente desde CERTS_DB (ver JS abajo) -->
     <div class="certs-grid" id="certs-grid"></div>
   </div>
 </section>
@@ -402,8 +281,8 @@ footer{background:var(--ink);color:var(--bg);padding:4rem 2rem 0}
   <div class="footer-wrap">
     <div class="footer-top">
       <div>
-        <div class="footer-brand">Skeimber Arce</div>
-        <p class="footer-sub">Técnico en Redes & IT Support desde San Rafael, Heredia, Costa Rica.</p>
+        <div class="footer-brand">Skeimber Arce Sánchez</div>
+        <p class="footer-sub">Técnico en Redes & IT Support, Heredia, Costa Rica.</p>
       </div>
       <div>
         <div class="fcol-title">Navegación</div>
@@ -425,26 +304,98 @@ footer{background:var(--ink);color:var(--bg);padding:4rem 2rem 0}
       </div>
     </div>
     <div class="footer-bottom">
-      <span>© 2026 Skeimber Arce. Todos los derechos reservados.</span>
+      <span>© 2026 Todos los derechos reservados.</span>
       <span>San Rafael, Heredia, Costa Rica.</span>
     </div>
-    <div class="footer-big">skeimber arce.</div>
+    <div class="footer-big">Skeimber Arce Sánchez.</div>
   </div>
 </footer>
  
 <script>
 /* ================================================================
-   🗂️  CERTS_DB — AQUÍ AGREGÁS TUS IMÁGENES
+   🗂️  PROJECTS_DB — AQUÍ EDITÁS TUS PROYECTOS
    ----------------------------------------------------------------
-   Cada certificado tiene un campo  image: null
-   Cuando tengas la foto del certificado, cambiá null por la ruta:
+   Campos de cada proyecto:
+     id       → número único
+     icon     → emoji representativo
+     category → texto que aparece arriba del título (ej: "Redes — Packet Tracer")
+     filter   → categoría para el botón de filtro. Opciones:
+                'web' | 'redes' | 'python' | 'seguridad'
+                (podés poner varios separados por espacio: 'redes seguridad')
+     title    → nombre del proyecto
+     desc     → descripción corta
+     tags     → array de tecnologías ['HTML', 'CSS', 'JS']
+     link     → URL del proyecto o repo. null = botón deshabilitado
+   ================================================================ */
  
-     image: 'img/cyberops.jpg'        ← si está en subcarpeta img/
-     image: 'cyberops.jpg'            ← si está en la misma carpeta
-     image: 'https://...'             ← si está en internet (GitHub raw, etc.)
+const PROJECTS_DB = [
+  {
+    id: 1,
+    icon: '',
+    category: 'Desarrollo Web',
+    filter: 'web',
+    title: "Web Transtar",
+    desc: "Sitio web construido con HTML, CSS y JavaScript.",
+    tags: ['HTML', 'CSS', 'JavaScript'],
+    link: "gruas-transtarcr.com",                          // ← 'https://tu-sitio.com'
+  },
+  {
+    id: 2,
+    icon: '',
+    category: 'Redes — Packet Tracer',
+    filter: 'redes',
+    title: 'Red Empresarial Simulada',
+    desc: 'Red LAN/WAN con VLANs, routing OSPF y ACLs de seguridad en Cisco Packet Tracer.',
+    tags: ['Packet Tracer', 'OSPF', 'VLANs', 'ACL'],
+    link: null,                          // ← 'https://github.com/...'
+  },
+  {
+    id: 3,
+    icon: '',
+    category: 'Redes — GNS3',
+    filter: 'redes seguridad',
+    title: 'Lab de Seguridad GNS3',
+    desc: 'Laboratorio con firewalls, IDS/IPS y análisis de tráfico con Wireshark en entorno virtualizado.',
+    tags: ['GNS3', 'Wireshark', 'Firewall'],
+    link: null,                          // ← 'https://github.com/...'
+  },
+  {
+    id: 4,
+    icon: '',
+    category: 'Python Script',
+    filter: 'python',
+    title: 'Automatización de Matricula',
+    desc: "Scripts Python para automatización de Matricula a Estudiantes Universitarios.",
+    tags: ['Python', 'Automatización', 'IT Support'],
+    link: "school_enrollment_terminal.html",                         
+  },
+  {
+    id: 5,
+    icon: '',
+    category: 'Desarrollo Web',
+    filter: 'web',
+    title: 'Proyectos Web en GitHub',
+    desc: 'Páginas web y aplicaciones construidas como práctica en desarrollo frontend.',
+    tags: ['HTML', 'CSS', 'Git'],
+    link: 'https://github.com/skeimber-arce',
+  },
+  {
+    id: 6,
+    icon: '',
+    category: 'Ciberseguridad',
+    filter: 'seguridad',
+    title: 'Análisis de Vulnerabilidades',
+    desc: 'Ejercicios de análisis de vulnerabilidades y hardening de sistemas en laboratorio controlado.',
+    tags: ['CyberOps', 'Análisis', 'Hardening'],
+    link: null,                          // ← 'https://github.com/...'
+  },
+];
  
-   Mientras sea null, se muestra un placeholder gris con el icono.
-   Al tener imagen, el click abre el certificado completo en pantalla.
+/* ================================================================
+   🗂️  CERTS_DB — AQUÍ EDITÁS TUS CERTIFICADOS
+   ----------------------------------------------------------------
+   image: null     → placeholder gris hasta que agregués la imagen
+   image: 'ruta'   → ruta relativa o URL absoluta de la imagen
    ================================================================ */
  
 const CERTS_DB = [
@@ -454,7 +405,7 @@ const CERTS_DB = [
     name: 'CyberOps Associate',
     issuer: 'Cisco Networking Academy',
     year: '2025',
-    image: "CYBEROPS_ASSOCIATE.png"        
+    image: 'CYBEROPS_ASSOCIATE.png',
   },
   {
     id: 2,
@@ -462,7 +413,7 @@ const CERTS_DB = [
     name: 'CCNA: Introduction to Networks',
     issuer: 'Cisco Networking Academy',
     year: '2024',
-    image: "CCNA_1.png",        
+    image: 'CCNA_1.png',
   },
   {
     id: 3,
@@ -470,7 +421,7 @@ const CERTS_DB = [
     name: 'CCNA: Switching, Routing & Wireless',
     issuer: 'Cisco Networking Academy',
     year: '2024',
-    image: "CCNA_2.png",         
+    image: 'CCNA_2.png',
   },
   {
     id: 4,
@@ -478,7 +429,7 @@ const CERTS_DB = [
     name: 'CCNA: Enterprise Networking & Security',
     issuer: 'Cisco Networking Academy',
     year: '2025',
-    image: "CCNA_3.png",         
+    image: 'CCNA_3.png',
   },
   {
     id: 5,
@@ -486,7 +437,7 @@ const CERTS_DB = [
     name: 'Linux Essentials',
     issuer: 'Linux Professional Institute',
     year: '2025',
-    image: "LINUX.png",          
+    image: 'LINUX.png',
   },
   {
     id: 6,
@@ -494,7 +445,7 @@ const CERTS_DB = [
     name: 'IT Essentials',
     issuer: 'Cisco Networking Academy',
     year: '2024',
-    image: "IT_ESSENTIALS.png",          
+    image: 'IT_ESSENTIALS.png',
   },
   {
     id: 7,
@@ -502,15 +453,15 @@ const CERTS_DB = [
     name: 'Network Technician Career Path',
     issuer: 'Cisco Networking Academy',
     year: '2024',
-    image: "NETWORK_TECHNICIAN_CAREER_PATH.png",         
+    image: 'NETWORK_TECHNICIAN_CAREER_PATH.png',
   },
   {
     id: 8,
     icon: '',
     name: 'Introduction to Data Science',
     issuer: 'Cisco Networking Academy',
-    year: "2025",
-    image: "DATA_SCIENCE.png",         
+    year: '2024',
+    image: 'DATA_SCIENCE.png',
   },
   {
     id: 9,
@@ -518,30 +469,86 @@ const CERTS_DB = [
     name: 'Scrum Fundamentals Certified',
     issuer: 'SCRUMstudy',
     year: '2026',
-    image: "SCRUM_FUNDAMENTALS.png",          
+    image: 'SCRUM_FUNDAMENTALS.png',
   },
   {
     id: 10,
     icon: '',
     name: 'Programming Essentials in Python',
-    issuer: 'Cisco Networking Academy in collaboration with OpenEDG Python Institude',
-    year: '2026',
-    image: "Python.png",          
+    issuer: 'Cisco Networking Academy / OpenEDG Python Institute',
+    year: '2023',
+    image: 'Python.jpeg',
   },
 ];
  
+/* ================================================================
+   RENDERIZADO PROYECTOS — no tocar
+   ================================================================ */
+const pgrid      = document.getElementById('pgrid');
+const filtersBar = document.getElementById('filters-bar');
+ 
+// Generar botones de filtro dinámicamente desde los filters únicos
+const allFilters = ['todos', ...new Set(
+  PROJECTS_DB.flatMap(p => p.filter.split(' '))
+)];
+const filterLabels = {
+  todos: 'Todos', web: 'Web', redes: 'Redes',
+  python: 'Python', seguridad: 'Ciberseguridad',
+};
+allFilters.forEach((f, i) => {
+  const btn = document.createElement('button');
+  btn.className = 'ftab' + (i === 0 ? ' on' : '');
+  btn.textContent = filterLabels[f] || f;
+  btn.addEventListener('click', () => filterProjects(f, btn));
+  filtersBar.appendChild(btn);
+});
+ 
+// Renderizar tarjetas de proyectos
+PROJECTS_DB.forEach(p => {
+  const card = document.createElement('div');
+  card.className = 'pcard';
+  card.dataset.c = p.filter;
+ 
+  const hasLink = p.link && p.link.trim() !== '';
+  card.innerHTML = `
+    <div class="pcard-top">
+      <span class="pcard-ico">${p.icon}</span>
+      <a href="${hasLink ? p.link : '#'}" target="_blank"
+         class="pcard-arr" ${!hasLink ? 'style="pointer-events:none;opacity:.35"' : ''}>↗</a>
+    </div>
+    <div class="pcat">${p.category}</div>
+    <div class="ptitle">${p.title}</div>
+    <div class="pdesc">${p.desc}</div>
+    <div class="ptags">${p.tags.map(t => `<span class="ttag">${t}</span>`).join('')}</div>
+    <div class="plink-row">
+      <span class="plink-label">Link</span>
+      <span class="plink-val">${hasLink ? p.link : 'Sin enlace aún'}</span>
+      <a href="${hasLink ? p.link : '#'}" target="_blank"
+         class="plink-go ${!hasLink ? 'disabled' : ''}">↗</a>
+    </div>`;
+ 
+  pgrid.appendChild(card);
+});
+ 
+function filterProjects(cat, btn) {
+  document.querySelectorAll('.ftab').forEach(t => t.classList.remove('on'));
+  btn.classList.add('on');
+  document.querySelectorAll('.pcard').forEach(c => {
+    const cats = c.dataset.c || '';
+    c.style.display = (cat === 'todos' || cats.includes(cat)) ? '' : 'none';
+  });
+}
  
 /* ================================================================
-   RENDERIZADO — no tocar
+   RENDERIZADO CERTIFICACIONES — no tocar
    ================================================================ */
-const grid = document.getElementById('certs-grid');
+const certsGrid = document.getElementById('certs-grid');
  
 CERTS_DB.forEach(cert => {
   const card = document.createElement('article');
   card.className = 'cert-card';
   card.tabIndex = 0;
  
-  // Bloque imagen
   const imgWrap = document.createElement('div');
   imgWrap.className = 'cert-img-wrap';
   if (cert.image) {
@@ -554,7 +561,6 @@ CERTS_DB.forEach(cert => {
       </div>`;
   }
  
-  // Info
   const info = document.createElement('div');
   info.className = 'cert-info';
   info.innerHTML = `
@@ -569,29 +575,27 @@ CERTS_DB.forEach(cert => {
   card.appendChild(imgWrap);
   card.appendChild(info);
  
-  // Lightbox solo si hay imagen
   const openLb = () => { if (cert.image) openLightbox(cert.image, cert.name); };
   card.addEventListener('click', openLb);
   card.addEventListener('keydown', e => { if (e.key === 'Enter') openLb(); });
- 
-  grid.appendChild(card);
+  certsGrid.appendChild(card);
 });
  
-// Animación de entrada con stagger
+// Entrada animada con stagger
 const certObserver = new IntersectionObserver(entries => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
-      const cards = [...grid.querySelectorAll('.cert-card')];
+      const cards = [...certsGrid.querySelectorAll('.cert-card')];
       const i = cards.indexOf(entry.target);
       setTimeout(() => entry.target.classList.add('visible'), i * 60);
       certObserver.unobserve(entry.target);
     }
   });
 }, { threshold: 0.05 });
-grid.querySelectorAll('.cert-card').forEach(c => certObserver.observe(c));
+certsGrid.querySelectorAll('.cert-card').forEach(c => certObserver.observe(c));
  
 /* ================================================================
-   LIGHTBOX
+   LIGHTBOX — no tocar
    ================================================================ */
 const lightbox = document.getElementById('lightbox');
 const lbImg    = document.getElementById('lb-img');
@@ -599,8 +603,7 @@ const lbCap    = document.getElementById('lb-caption');
 const lbClose  = document.getElementById('lb-close');
  
 function openLightbox(src, name) {
-  lbImg.src = src;
-  lbImg.alt = name;
+  lbImg.src = src; lbImg.alt = name;
   lbCap.textContent = name;
   lightbox.classList.add('open');
   document.body.style.overflow = 'hidden';
@@ -615,34 +618,14 @@ lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightb
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
  
 /* ================================================================
-   PROYECTOS — funciones originales
-   ================================================================ */
-function openLink(id) {
-  const val = document.getElementById(id).value.trim();
-  if (val) window.open(val, '_blank');
-}
-function fp(cat, btn) {
-  document.querySelectorAll('.ftab').forEach(t => t.classList.remove('on'));
-  btn.classList.add('on');
-  document.querySelectorAll('.pcard').forEach(c => {
-    const cats = c.dataset.c || '';
-    c.style.display = (cat === 'todos' || cats.includes(cat)) ? '' : 'none';
-  });
-}
- 
-/* ================================================================
-   ANIMACIÓN GENERAL (proyectos + CV cards)
+   ANIMACIÓN GENERAL (CV cards) — no tocar
    ================================================================ */
 const io = new IntersectionObserver(entries => {
   entries.forEach(e => {
-    if (e.isIntersecting) {
-      e.target.style.opacity = '1';
-      e.target.style.transform = 'translateY(0)';
-    }
+    if (e.isIntersecting) { e.target.style.opacity='1'; e.target.style.transform='translateY(0)'; }
   });
 }, { threshold: 0.08 });
- 
-document.querySelectorAll('.pcard, .cvcard').forEach(el => {
+document.querySelectorAll('.cvcard').forEach(el => {
   el.style.opacity = '0';
   el.style.transform = 'translateY(16px)';
   el.style.transition = 'opacity .5s ease, transform .5s ease';
